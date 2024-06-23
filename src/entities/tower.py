@@ -3,11 +3,11 @@ from src.entities.projectile import Projectile
 
 class Tower:
     def __init__(self, x, y):
-        self.image = pygame.image.load('tower.png')
+        self.image = pygame.image.load('assets/images/tower.png')
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.range = 100
-        self.damage = 10
+        self.damage = 34
         self.projectiles = []
         self.cooldown = 500  # Cooldown time in milliseconds
         self.last_shot_time = 0

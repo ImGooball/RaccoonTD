@@ -2,7 +2,7 @@ import pygame
 
 class Projectile:
     def __init__(self, x, y, target, speed=5):
-        self.image = pygame.image.load('projectile.png')
+        self.image = pygame.image.load('assets/images/projectile.png')
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.speed = speed
