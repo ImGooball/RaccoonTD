@@ -4,6 +4,8 @@ from src.entities.enemy import Enemy
 from src.entities.button import Button
 from src.game.stages import stages
 
+COLUMN_WIDTH = 200  # Width of the side column
+
 class Game:
     def __init__(self, screen):
         self.screen = screen
@@ -21,8 +23,8 @@ class Game:
         self.current_stage = None
         self.current_round = 1
         self.total_rounds = 50
-        self.start_button = Button(300, 550, 200, 50, "Start Round", self.start_round)
-        self.restart_button = Button(600, 550, 200, 50, "Restart", self.restart_game)
+        self.start_button = Button(820, 50, 150, 50, "Start Round", self.start_round)
+        self.restart_button = Button(820, 150, 150, 50, "Restart", self.restart_game)
 
     def start_round(self):
         if self.phase == 1:
@@ -77,7 +79,7 @@ class Game:
                 if not tower_clicked:
                     self.selected_tower = None
 
-                if not self.is_overlapping(x, y) and self.currency >= 50:  # Assume tower cost is 50
+                if x < 800 and not self.is_overlapping(x, y) and self.currency >= 50:  # Assume tower cost is 50 and x < 800 prevents placing in column
                     self.towers.append(Tower(x, y))
                     self.currency -= 50
                     print(f"Placed tower at ({x}, {y})")
@@ -152,6 +154,9 @@ class Game:
                 pygame.draw.circle(self.screen, (255, 255, 255), point, 5)
             pygame.draw.lines(self.screen, (255, 255, 255), False, stages[self.current_stage], 2)
 
+        # Draw the side column
+        pygame.draw.rect(self.screen, (50, 50, 50), (800, 0, COLUMN_WIDTH, 600))
+
         # Draw selected tower range
         if self.selected_tower:
             pygame.draw.circle(self.screen, (0, 0, 255, 100), self.selected_tower.rect.center, self.selected_tower.range, 1)
@@ -168,10 +173,11 @@ class Game:
         self.restart_button.draw(self.screen)
 
         # Draw currency and health
-        font = pygame.font.SysFont(None, 40)
-        currency_text = font.render(f"Currency: {self.currency}", True, (255, 255, 255))
-        health_text = font.render(f"Health: {self.health}", True, (255, 255, 255))
-        round_text = font.render(f"Round: {self.current_round}/{self.total_rounds}", True, (255, 255, 255))
-        self.screen.blit(currency_text, (10, 10))
-        self.screen.blit(health_text, (10, 50))
-        self.screen.blit(round_text, (10, 90))
+        if self.phase != 0:
+            font = pygame.font.SysFont(None, 40)
+            currency_text = font.render(f"Currency: {self.currency}", True, (255, 255, 255))
+            health_text = font.render(f"Health: {self.health}", True, (255, 255, 255))
+            round_text = font.render(f"Round: {self.current_round}/{self.total_rounds}", True, (255, 255, 255))
+            self.screen.blit(currency_text, (10, 10))
+            self.screen.blit(health_text, (10, 50))
+            self.screen.blit(round_text, (10, 90))

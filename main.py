@@ -6,7 +6,7 @@ import sys
 pygame.init()
 
 # Set up the game window
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((1000, 600))  # Increased width to 1000 to accommodate the column
 pygame.display.set_caption("Tower Defense Game")
 
 # Set up the clock for frame rate
